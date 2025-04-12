@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float movespeed;
     public float sensX;
     public float sensY;
+    public float jumpHeight;
 
     [Header("Info")]
     public Vector2 moveDirection;
@@ -24,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Input Actions
     private InputAction move;
-    private InputAction fire;
+    private InputAction jump;
     private InputAction look;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -51,18 +52,21 @@ public class PlayerMovement : MonoBehaviour
 
         camera.transform.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         gameObject.transform.rotation = Quaternion.Euler(0, yRotation, 0);
-
-        
     }
 
     private void FixedUpdate()
     {
         moveDirection = move.ReadValue<Vector2>().normalized;
-        moveVector = gameObject.transform.forward * moveDirection.y + gameObject.transform.right * moveDirection.x;
-        rb.linearVelocity = moveVector * movespeed;
+        //           Z                                                        X                                                   Y
+        moveVector = gameObject.transform.forward * moveDirection.y + gameObject.transform.right * moveDirection.x + gameObject.transform.up * rb.linearVelocity.y;
+        rb.linearVelocity = moveVector;
     }
 
 
+    public void Jump(InputAction.CallbackContext context)
+    {
+        rb.AddForce(new Vector3(0, jumpHeight, 0), ForceMode.Impulse);
+    }
 
     //INPUT SYSTEM STUFF
     private void Awake()
@@ -74,6 +78,11 @@ public class PlayerMovement : MonoBehaviour
     {
         move = playerControls.Player.Move;
         look = playerControls.Player.Look;
+
+        //Add OnPress Func
+        jump = playerControls.Player.Jump;
+        jump.performed += Jump;
+
         playerControls.Player.Enable();
     }
 
