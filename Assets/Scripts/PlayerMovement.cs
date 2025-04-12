@@ -58,7 +58,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         moveDirection = move.ReadValue<Vector2>().normalized;
-
         moveVector = gameObject.transform.forward * moveDirection.y + gameObject.transform.right * moveDirection.x;
         rb.linearVelocity = moveVector * movespeed;
     }
