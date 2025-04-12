@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Assignables")]
     public Rigidbody rb;
-    public InputSystem_Actions playerControls;
+    [SerializeField]public InputSystem_Actions playerControls;
     public Camera camera;
     public GameObject cameraPos;
 
@@ -27,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private InputAction move;
     private InputAction jump;
     private InputAction look;
+    private InputAction interact;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
