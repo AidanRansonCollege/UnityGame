@@ -11,7 +11,6 @@ public class Interact : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        PLEASE(new InputAction.CallbackContext());
     }
 
     // Update is called once per frame
@@ -20,10 +19,15 @@ public class Interact : MonoBehaviour
         
     }
 
-    public void PLEASE(InputAction.CallbackContext context)
+    public void InteractAttempt(InputAction.CallbackContext context)
     {
+        RaycastHit hit;
 
-        Debug.Log("Interact HIT");
+        if (Physics.Raycast(cameraPos.position, cameraPos.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        {
+            
+            Debug.DrawRay(cameraPos.position, cameraPos.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+        }
 
     }
 
@@ -35,7 +39,7 @@ public class Interact : MonoBehaviour
     private void OnEnable()
     {
         interact = playerControls.Player.Interact;
-        interact.performed += PLEASE;
+        interact.performed += InteractAttempt;
         playerControls.Player.Interact.Enable();
     }
 

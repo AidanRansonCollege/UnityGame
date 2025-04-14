@@ -59,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         moveDirection = move.ReadValue<Vector2>().normalized;
         //           Z                                                        X                                                   Y
         moveVector = gameObject.transform.forward * moveDirection.y + gameObject.transform.right * moveDirection.x + gameObject.transform.up * rb.linearVelocity.y;
-        rb.linearVelocity = moveVector;
+        rb.linearVelocity = moveVector * movespeed;
     }
 
 

@@ -197,7 +197,7 @@ MonoBehaviour:
   rb: {fileID: 185531347}
   camera: {fileID: 330585545}
   cameraPos: {fileID: 1362165811}
-  movespeed: 5
+  movespeed: 1
   sensX: 1
   sensY: 1
   jumpHeight: 5
