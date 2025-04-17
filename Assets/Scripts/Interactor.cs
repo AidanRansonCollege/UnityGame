@@ -1,16 +1,21 @@
+using NUnit.Framework;
 using UnityEngine;
 
 using UnityEngine.InputSystem;
 
-public class Interact : MonoBehaviour
+
+public class Interactor : MonoBehaviour
 {
 
     public Transform cameraPos;
+    public float range;
     private InputAction interact;
     private InputSystem_Actions playerControls;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+
     }
 
     // Update is called once per frame
@@ -23,10 +28,12 @@ public class Interact : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(cameraPos.position, cameraPos.TransformDirection(Vector3.forward), out hit, Mathf.Infinity))
+        if (Physics.Raycast(cameraPos.position, cameraPos.TransformDirection(Vector3.forward), out hit, range))
         {
-            
-            Debug.DrawRay(cameraPos.position, cameraPos.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+            if(hit.collider.gameObject.TryGetComponent(out IInteract interact))
+            {
+                interact.Interact();
+            }
         }
 
     }
