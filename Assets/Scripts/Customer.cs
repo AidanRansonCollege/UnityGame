@@ -19,12 +19,16 @@ public class Customer : MonoBehaviour, IInteract
 
     public void Interact()
     {
-        for (int i = 0; i < order.Length; i++)
-        {
 
-            Debug.Log(order[i]);
-        }    
-        Debug.Log(gold);
+        if (isSitting)
+        {
+            GiveOrder();
+        }
+        else{
+            Chat();
+        }
+
+        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -89,8 +93,19 @@ public class Customer : MonoBehaviour, IInteract
         gameObject.GetComponent<NavMeshAgent>().SetDestination(exit.transform.position);
     }
 
-    // Update is called once per frame
+    void GiveOrder()
+    {
+        for (int i = 0; i < order.Length; i++)
+        {
+            Debug.Log(order[i]);
+        
+        }
+    }
 
+    void Chat()
+    {
+        Debug.Log("Hello my name is " + name + ". I have " + gold + " gold.");
+    }
 
     
 }
