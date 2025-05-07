@@ -4,6 +4,7 @@ public class Seat : MonoBehaviour
 {
     public bool isTaken;
     public GameObject sitter;
+    public bool inPlace = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,7 +23,10 @@ public class Seat : MonoBehaviour
         if (collider.gameObject.GetComponent<Customer>() != null) {
 
             collider.gameObject.GetComponent<Customer>().isSitting = true;
-        
+            if (inPlace) { 
+                collider.gameObject.transform.position = gameObject.transform.position;
+                inPlace = false;
+            }
         }
     }
 

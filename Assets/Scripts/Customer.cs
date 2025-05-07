@@ -4,33 +4,51 @@ using UnityEngine.AI;
 
 public class Customer : MonoBehaviour, IInteract
 {
+
+    [Header("Customer Info")]
     public string characterName;
     public string[] order;
     public int gold;
+
+    [Header("NavMesh Info")]
     public GameObject[] seats;
     public GameObject desiredSeat;
     public GameObject exit;
 
+
+    [Header("Sitting")]
+    public bool goingToSeat;
     public bool isSitting;
-    public float maxSitTime;
-    public float timesat = 0;
     public bool canBeDestroyed;
+    public float timesat = 0;
+    public float maxSitTime;
+
+    [Header("Talking")]
+    public bool isTalking;
 
 
     public void Interact()
     {
-
-        if (isSitting)
+        if (isTalking) //IF ALREADY TALKING
         {
-            GiveOrder();
+            gameObject.GetComponent<NavMeshAgent>().isStopped = false;
         }
-        else{
-            Chat();
+        else //ELSE START TALKING
+        {
+            isTalking = true;
+            if (isSitting)
+            {
+                GiveOrder();
+            }
+            else
+            {
+                gameObject.GetComponent<NavMeshAgent>().isStopped = true;
+                Chat();
+            }
         }
 
-        
     }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         gold = Random.Range(gold - 5, gold + 5);
@@ -48,6 +66,7 @@ public class Customer : MonoBehaviour, IInteract
         {
             //Someone took the seat, ReSelect
             SelectSeat();
+
         }
 
         if (timesat >= maxSitTime) {
@@ -64,7 +83,8 @@ public class Customer : MonoBehaviour, IInteract
     {
         if (isSitting && gameObject.GetComponent<NavMeshAgent>().remainingDistance == 0)
         {
-            timesat += 1;
+
+            timesat += 1 / 60f;
         }
     }
 
@@ -105,6 +125,7 @@ public class Customer : MonoBehaviour, IInteract
     void Chat()
     {
         Debug.Log("Hello my name is " + name + ". I have " + gold + " gold.");
+        
     }
 
     
